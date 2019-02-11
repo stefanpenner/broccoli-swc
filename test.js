@@ -66,8 +66,12 @@ describe('broccoli-swc-transpiler', function() {
     expect(Object.keys(output.read())).to.deep.eql([ 'a.js', 'b', 'foo.txt' ])
 
     const A_JS = output.read()['a.js'];
-    console.log(A_JS);
-    // TODO
-    // let a = new Function(A_JS);
+    // TODO: once we can correctly configure swc and once it in a custom vm
+    // context, and confirm the compiled output is:
+    // * around the expected size
+    // * interopts with the loader we expect given how we configured it
+    //
+    // I didn't want to have to load babel to convert the output, so we can
+    // test it. So let's wait for swc to fix/update
   })
 });
