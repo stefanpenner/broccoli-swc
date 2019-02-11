@@ -41,3 +41,4 @@ TBD
 ## SWC Issues:
 
 * https://github.com/swc-project/swc/issues/151
+* https://github.com/swc-project/swc/issues/154
