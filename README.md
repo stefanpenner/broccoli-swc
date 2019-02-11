@@ -37,3 +37,7 @@ module.exports = class CustomSWC extends swc.Plugin {
 ## options:
 
 TBD
+
+## SWC Issues:
+
+* https://github.com/swc-project/swc/issues/151
