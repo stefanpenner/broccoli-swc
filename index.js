@@ -13,3 +13,9 @@ class SWC extends Plugin {
     return (await swc.transform(content, this.options.swc)).code;
   }
 }
+
+module.exports = function swc(input, options) {
+  return new SWC(input, options);
+};
+
+module.exports.Plugin = SWC;
