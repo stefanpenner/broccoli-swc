@@ -15,5 +15,6 @@
   },
   "scripts": {
     "test": "mocha test"
-  }
+  },
+  "keywords": ["broccoli-plugin"]
 }
