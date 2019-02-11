@@ -33,3 +33,7 @@ module.exports = class CustomSWC extends swc.Plugin {
   // custom behavior 
 }
 ```
+
+## options:
+
+TBD
