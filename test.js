@@ -12,7 +12,12 @@ describe('broccoli-swc-transpiler', function() {
   });
 
   it('is ok', async function() {
-    const subject = swc(input.path());
+    const subject = swc(input.path(), {
+      swc: {
+        jsc: {
+        }
+      }
+    });
     const output = createBuilder(subject);
 
     input.write({
@@ -40,7 +45,8 @@ describe('broccoli-swc-transpiler', function() {
         }
       }
       `
-      }
+      },
+      'foo.txt': 'do not compile'
     });
 
     await output.build();
@@ -48,7 +54,8 @@ describe('broccoli-swc-transpiler', function() {
     expect(output.changes()).to.deep.eql({
       'a.js': 'create',
       'b/': 'mkdir',
-      'b/b.js': 'create'
+      'b/b.js': 'create',
+      'foo.txt': 'create'
     });
 
 
@@ -56,10 +63,11 @@ describe('broccoli-swc-transpiler', function() {
 
     expect(output.changes()).to.deep.eql({});
 
-    expect(Object.keys(output.read())).to.deep.eql([ 'a.js', 'b' ])
+    expect(Object.keys(output.read())).to.deep.eql([ 'a.js', 'b', 'foo.txt' ])
 
     const A_JS = output.read()['a.js'];
-    // TODO:
+    console.log(A_JS);
+    // TODO
     // let a = new Function(A_JS);
   })
 });

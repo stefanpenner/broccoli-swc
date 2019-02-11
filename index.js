@@ -5,12 +5,27 @@ const swc = require('swc')
 
 class SWC extends Plugin {
   constructor(inputTree, options = {}) {
-    super(inputTree);
+    super(inputTree, {
+      // in theory, it is possible for swc to use native threads to achieve per
+      // transform parallelism. To utilize that we enable async here, which
+      // processes all processStrings in parallel. I'll need to investigate if
+      // this is actually possible with SWC...
+      async: true,
+
+      // TODO: lets experiment with this some, maybe SWC is fast enough to not need this?
+      persist: true
+    });
     this.options = options;
+    this.extensions = ['js'];
   }
 
   async processString(content, relativePath) {
     return (await swc.transform(content, this.options.swc)).code;
+  }
+
+  // this is implemented for persistent cache key creation by broccoli-persistent-filter
+  baseDir() {
+    return __dirname;
   }
 }
 
