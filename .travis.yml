@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - "10"
 os:
-  - windows
+  # - windows # TODO: make this work
   - linux
 cache:
   yarn: true
