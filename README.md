@@ -40,6 +40,6 @@ TBD
 
 ## SWC Issues:
 
-* https://github.com/swc-project/swc/issues/151
-* https://github.com/swc-project/swc/issues/154
-* https://github.com/swc-project/swc/issues/104
+* https://github.com/swc-project/swc/issues/151 commonjs transformation not working via JS API #151
+* https://github.com/swc-project/swc/issues/154 add support for "named amd" module targets
+* https://github.com/swc-project/swc/issues/104 Something like @babel/preset-env
