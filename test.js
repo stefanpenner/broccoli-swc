@@ -2,7 +2,8 @@
 
 const { expect } = require('chai');
 const { createBuilder, createTempDir } = require("broccoli-test-helper");
-const SWC = require('./index')
+const swc = require('./index')
+
 describe('broccoli-swc-transpiler', function() {
   let input;
 
@@ -11,7 +12,7 @@ describe('broccoli-swc-transpiler', function() {
   });
 
   it('is ok', async function() {
-    const subject = new SWC(input.path());
+    const subject = swc(input.path());
     const output = createBuilder(subject);
 
     input.write({
@@ -58,6 +59,7 @@ describe('broccoli-swc-transpiler', function() {
     expect(Object.keys(output.read())).to.deep.eql([ 'a.js', 'b' ])
 
     const A_JS = output.read()['a.js'];
-    let a = new Function(A_JS);
+    // TODO:
+    // let a = new Function(A_JS);
   })
 });
