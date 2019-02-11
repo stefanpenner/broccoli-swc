@@ -1,5 +1,5 @@
 # broccoli-swc
-
+[![Build Status](https://travis-ci.org/stefanpenner/broccoli-swc.svg?branch=master)](https://travis-ci.org/stefanpenner/broccoli-swc)
 Experimental SWC compiler for broccoli.
 
 > Super-fast javascript to javascript compiler written in rust
