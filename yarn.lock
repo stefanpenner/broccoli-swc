@@ -1119,13 +1119,14 @@ has@^1.0.1, has@^1.0.3:
     function-bind "^1.1.1"
 
 hash-for-dep@^1.0.2:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/hash-for-dep/-/hash-for-dep-1.3.1.tgz#b33d33aea8a428de5045d3e7ee0ad86298960c53"
-  integrity sha512-+EtZxGPLzo4MxEOT3VALnWcfGx/LGuYJE2HqKAPJfDXju0KHZgSNluUyExtKvXeMlF41Vwyv4qbboUI3RqRoBA==
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/hash-for-dep/-/hash-for-dep-1.4.3.tgz#7c4718179c130fa29ed1fcde82d2ffa06646abad"
+  integrity sha512-9wxIRC89BOZCu17Df966u9TzBQhXVGvbVWOqjMa7e/4ZU/8E+jTd0G8ZC4KD0VMvYLOwqEurfDlFB6BLKVAMlw==
   dependencies:
     broccoli-kitchen-sink-helpers "^0.3.1"
     heimdalljs "^0.2.3"
     heimdalljs-logger "^0.1.7"
+    path-root "^0.1.1"
     resolve "^1.4.0"
 
 he@1.1.1:
@@ -1717,9 +1718,9 @@ object-copy@^0.1.0:
     kind-of "^3.0.3"
 
 object-keys@^1.0.12:
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/object-keys/-/object-keys-1.0.12.tgz#09c53855377575310cca62f55bb334abff7b3ed2"
-  integrity sha512-FTMyFUm2wBcGHnH2eXmz7tC6IwlqQZ6mVZ+6dm6vZ4IQIHjs6FdNsQBuKGPuUUUY6NfJw2PshC08Tn6LzLDOag==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/object-keys/-/object-keys-1.1.0.tgz#11bd22348dd2e096a045ab06f6c85bcc340fa032"
+  integrity sha512-6OO5X1+2tYkNyNEx6TsCxEqFfRWaqx6EtMiSbGrw8Ob8v9Ne+Hl8rBAgLBZn5wjEz3s/s6U1WXFUFOcxxAwUpg==
 
 object-visit@^1.0.0:
   version "1.0.1"
@@ -1808,6 +1809,18 @@ path-posix@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/path-posix/-/path-posix-1.0.0.tgz#06b26113f56beab042545a23bfa88003ccac260f"
   integrity sha1-BrJhE/Vr6rBCVFojv6iAA8ysJg8=
+
+path-root-regex@^0.1.0:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/path-root-regex/-/path-root-regex-0.1.2.tgz#bfccdc8df5b12dc52c8b43ec38d18d72c04ba96d"
+  integrity sha1-v8zcjfWxLcUsi0PsONGNcsBLqW0=
+
+path-root@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/path-root/-/path-root-0.1.1.tgz#9a4a6814cac1c0cd73360a95f32083c8ea4745b7"
+  integrity sha1-mkpoFMrBwM1zNgqV8yCDyOpHRbc=
+  dependencies:
+    path-root-regex "^0.1.0"
 
 pathval@^1.1.0:
   version "1.1.0"
@@ -2321,9 +2334,9 @@ supports-color@^5.3.0:
     has-flag "^3.0.0"
 
 swc@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/swc/-/swc-1.0.3.tgz#c8990d88ec30cb8b91eb6d2655af4ae7a3fad324"
-  integrity sha512-V53E0ieQBNk9hTloh7fRDb1DCg8GPm12WUJPj25gDR5slIQPQP69TDHR8uj0p1kQNa5JVUMbH2BZuSesvOnucA==
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/swc/-/swc-1.0.5.tgz#bef7aae8c920157083b998c70417781a70fecaa3"
+  integrity sha512-GRXUogJd5nAVkTL6ckydavVe8RLC6wuk/xl4Uuj3/fWpUxTDECs8CRcYr9sZmJHf+6SYbdYD0lJxMgejPBUu+w==
   dependencies:
     mkdirp "^0.5.1"
     neon-cli "^0.2.0"

@@ -12,15 +12,28 @@ class SWC extends Plugin {
       // this is actually possible with SWC...
       async: true,
 
-      // TODO: lets experiment with this some, maybe SWC is fast enough to not need this?
-      persist: true
+      // TODO: lets experiment with this some, maybe SWC is fast enough to not need this? persist: true
     });
     this.options = options;
     this.extensions = ['js'];
   }
 
   async processString(content, relativePath) {
-    return (await swc.transform(content, this.options.swc)).code;
+    const { code } = (await swc.transform(content, {
+      ...this.options.swc,
+      ...{
+        module: {
+          type: 'commonjs'
+        }
+      }
+    }
+    ));
+
+    if (this.options.namedAmd) {
+      return wrapInNamedAmd(code, relativePath.replace(/\.(?:js|ts)$/, ''));
+    } else {
+      return code;
+    }
   }
 
   // this is implemented for persistent cache key creation by broccoli-persistent-filter
@@ -34,3 +47,11 @@ module.exports = function swc(input, options) {
 };
 
 module.exports.Plugin = SWC;
+function wrapInNamedAmd(cjs, name) {
+  return `define('${name}', ['exports', 'require'], function(exports, require) {
+        ;${cjs};
+      });`
+}
+
+module.exports.wrapInNamedAmd = wrapInNamedAmd;
+

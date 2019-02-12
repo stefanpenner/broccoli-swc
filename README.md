@@ -20,7 +20,10 @@ This module aims to experiment using SWC in the broccoli and ember-cli ecosystem
 ```js
 // Brocfile.js
 const swc = require('broccoli-swc');
-module.exports = swc(__dirname + '/src', { swc: {/* swc options */ }); // where src/**/*.js contains ecmascript
+module.exports = swc(__dirname + '/src', {
+  namedAmd: true | false, // defaults to false, but if true will wrap the CJS in named AMD output
+  swc: {/* swc options */ }
+}); // where src/**/*.js contains ecmascript
 ```
 
 ### Extension / Subclassing
@@ -30,7 +33,7 @@ module.exports = swc(__dirname + '/src', { swc: {/* swc options */ }); // where 
 const swc = require('broccoli-swc');
 
 module.exports = class CustomSWC extends swc.Plugin {
-  // custom behavior 
+  // custom behavior
 }
 ```
 
@@ -40,7 +43,7 @@ TBD: https://github.com/swc-project/swc/issues/151 seems to be blocking providin
 
 ## SWC Issues:
 
-* https://github.com/swc-project/swc/issues/151 commonjs transformation not working via JS API #151
+* ~https://github.com/swc-project/swc/issues/151 commonjs transformation not working via JS API #151~
 * https://github.com/swc-project/swc/issues/154 add support for "named amd" module targets
 * https://github.com/swc-project/swc/issues/104 Something like @babel/preset-env
 * https://github.com/swc-project/swc/issues/155 add support for external helpers
