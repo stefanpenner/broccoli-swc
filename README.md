@@ -37,10 +37,6 @@ module.exports = class CustomSWC extends swc.Plugin {
 }
 ```
 
-## options:
-
-TBD: https://github.com/swc-project/swc/issues/151 seems to be blocking providing options correctly, which makes testing options somewhat tricky. Once resolved I can document this.
-
 ## SWC Issues:
 
 * ~https://github.com/swc-project/swc/issues/151 commonjs transformation not working via JS API #151~
