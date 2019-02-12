@@ -156,4 +156,65 @@ describe('broccoli-swc-transpiler', function() {
     const Foo = evalAndGetAmdExport(A_JS, 'a').default;
     expect(new Foo().foo).to.eql(1);
   });
+
+
+
+  it('it supports typescript compilation', async function() {
+    const subject = swc(input.path(), {
+      swc: {
+        jsc: {
+        }
+      }
+    });
+    const output = createBuilder(subject);
+
+    input.write({
+      'a.ts': `
+      export default class Foo {
+        get foo() {
+          return 1;
+        }
+
+        async apple() {
+          await Promise.resolve(1);
+        }
+      }
+      `,
+
+      'b': {
+        'b.ts': `
+      export default class Foo {
+        get foo() {
+          return 1;
+        }
+
+        async apple() {
+          await Promise.resolve(1);
+        }
+      }
+      `
+      },
+      'foo.txt': 'do not compile'
+    });
+
+    await output.build();
+
+    expect(output.changes()).to.deep.eql({
+      'a.ts': 'create',
+      'b/': 'mkdir',
+      'b/b.ts': 'create',
+      'foo.txt': 'create'
+    });
+
+
+    await output.build();
+
+    expect(output.changes()).to.deep.eql({});
+
+    expect(Object.keys(output.read())).to.deep.eql([ 'a.ts', 'b', 'foo.txt' ])
+
+    const A_JS = output.read()['a.ts'];
+    const Foo = evalAndGetCJSExport(A_JS).default;
+    expect(new Foo().foo).to.eql(1);
+  });
 });

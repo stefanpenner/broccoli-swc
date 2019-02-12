@@ -15,7 +15,7 @@ class SWC extends Plugin {
       // TODO: lets experiment with this some, maybe SWC is fast enough to not need this? persist: true
     });
     this.options = options;
-    this.extensions = ['js'];
+    this.extensions = ['js', 'ts'];
   }
 
   async processString(content, relativePath) {
