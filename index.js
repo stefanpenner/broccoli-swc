@@ -1,7 +1,7 @@
 'use strict';
 
 const Plugin = require('broccoli-persistent-filter');
-const swc = require('swc')
+const swc = require('@swc/core')
 
 class SWC extends Plugin {
   constructor(inputTree, options = {}) {
