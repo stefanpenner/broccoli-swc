@@ -44,3 +44,4 @@ module.exports = class CustomSWC extends swc.Plugin {
 * https://github.com/swc-project/swc/issues/104 Something like @babel/preset-env
 * https://github.com/swc-project/swc/issues/155 add support for external helpers
 * https://github.com/swc-project/swc/issues/18 Plugin system (we often rely on custom build steps such as debug/assert/feature flag stripping)
+* ~https://github.com/swc-project/swc/issues/248 correct include externalized helpers in amd output~
