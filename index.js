@@ -15,25 +15,26 @@ class SWC extends Plugin {
       // TODO: lets experiment with this some, maybe SWC is fast enough to not need this? persist: true
     });
     this.options = options;
+    this.swcOptions = {
+      ...this.options.swc
+    };
+
+    if (this.swcOptions.module === undefined) {
+      this.swcOptions.module = { type: 'amd' };
+    }
     this.extensions = ['js', 'ts'];
   }
 
   async processString(content, relativePath) {
-    const { code } = (await swc.transform(content, {
-      ...this.options.swc,
-      ...{
-        module: {
-          type: 'commonjs'
-        }
-      }
-    }
-    ));
+    const options = {...this.swcOptions};
+    options.module = options.module || {};
 
-    if (this.options.namedAmd) {
-      return wrapInNamedAmd(code, relativePath.replace(/\.(?:js|ts)$/, ''));
-    } else {
-      return code;
+    if (options.module.type === 'amd') {
+      options.module.moduleId = relativePath.replace(/\.(?:js|ts)$/, '');
     }
+
+    const { code } = await swc.transform(content, options);
+    return code;
   }
 
   // this is implemented for persistent cache key creation by broccoli-persistent-filter
@@ -47,11 +48,4 @@ module.exports = function swc(input, options) {
 };
 
 module.exports.Plugin = SWC;
-function wrapInNamedAmd(cjs, name) {
-  return `define('${name}', ['exports', 'require'], function(exports, require) {
-        ;${cjs};
-      });`
-}
-
-module.exports.wrapInNamedAmd = wrapInNamedAmd;
 
