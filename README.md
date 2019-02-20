@@ -21,8 +21,12 @@ This module aims to experiment using SWC in the broccoli and ember-cli ecosystem
 // Brocfile.js
 const swc = require('broccoli-swc');
 module.exports = swc(__dirname + '/src', {
-  namedAmd: true | false, // defaults to false, but if true will wrap the CJS in named AMD output
-  swc: {/* swc options */ }
+  swc: {
+    module: {
+      type: 'commonjs' | 'amd'
+      moduleId: // optional or true, if true it will infer the module name from the file path.
+    }
+  }
 }); // where src/**/*.js contains ecmascript
 ```
 

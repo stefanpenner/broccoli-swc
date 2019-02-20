@@ -7,11 +7,12 @@ const swc = require('./index')
 describe('broccoli-swc-transpiler', function() {
   let input;
 
-  function evalAndGetAmdExport(code, expectedModuleId) {
+  function evalAndGetAmdExport(code) {
     let module = new Function('define', code);
     let moduleId;
     let dependencies;
     let cb;
+
     function define(_moduleId, _dependencies, _cb) {
       moduleId = _moduleId;
       dependencies = _dependencies;
@@ -19,12 +20,14 @@ describe('broccoli-swc-transpiler', function() {
     }
 
     module(define);
-
-    expect(moduleId).to.eql(expectedModuleId);
-    expect(dependencies).to.eql(['exports', 'require']);
     const exports = {};
     cb(exports);
-    return exports;
+
+    return {
+      moduleId,
+      dependencies,
+      exports
+    };
   }
 
   function evalAndGetCJSExport(code) {
@@ -41,7 +44,8 @@ describe('broccoli-swc-transpiler', function() {
   it('it supports CJS compilation', async function() {
     const subject = swc(input.path(), {
       swc: {
-        jsc: {
+        module: {
+          type: 'commonjs'
         }
       }
     });
@@ -97,72 +101,11 @@ describe('broccoli-swc-transpiler', function() {
     expect(new Foo().foo).to.eql(1);
   });
 
-  it('it can wrap into named amd', async function() {
-    const subject = swc(input.path(), {
-      namedAmd: true,
-      swc: {
-        jsc: {
-        }
-      }
-    });
-    const output = createBuilder(subject);
-
-    input.write({
-      'a.js': `
-      export default class Foo {
-        get foo() {
-          return 1;
-        }
-
-        async apple() {
-          await Promise.resolve(1);
-        }
-      }
-      `,
-
-      'b': {
-        'b.js': `
-      export default class Foo {
-        get foo() {
-          return 1;
-        }
-
-        async apple() {
-          await Promise.resolve(1);
-        }
-      }
-      `
-      },
-      'foo.txt': 'do not compile'
-    });
-
-    await output.build();
-
-    expect(output.changes()).to.deep.eql({
-      'a.js': 'create',
-      'b/': 'mkdir',
-      'b/b.js': 'create',
-      'foo.txt': 'create'
-    });
-
-
-    await output.build();
-
-    expect(output.changes()).to.deep.eql({});
-
-    expect(Object.keys(output.read())).to.deep.eql([ 'a.js', 'b', 'foo.txt' ])
-
-    const A_JS = output.read()['a.js'];
-    const Foo = evalAndGetAmdExport(A_JS, 'a').default;
-    expect(new Foo().foo).to.eql(1);
-  });
-
-
-
   it('it supports typescript compilation', async function() {
     const subject = swc(input.path(), {
       swc: {
-        jsc: {
+        module: {
+          type: 'commonjs'
         }
       }
     });
@@ -215,6 +158,201 @@ describe('broccoli-swc-transpiler', function() {
 
     const A_JS = output.read()['a.ts'];
     const Foo = evalAndGetCJSExport(A_JS).default;
+    expect(new Foo().foo).to.eql(1);
+  });
+
+
+  it('it supports named AMD compilation via moduleId=true', async function() {
+    const subject = swc(input.path(), {
+      swc: {
+        module: {
+          type: 'amd',
+          moduleId: true
+        }
+      }
+    });
+    const output = createBuilder(subject);
+
+    input.write({
+      'a.js': `
+      export default class Foo {
+        get foo() {
+          return 1;
+        }
+
+        async apple() {
+          await Promise.resolve(1);
+        }
+      }
+      `,
+
+      'b': {
+        'b.js': `
+      export default class Foo {
+        get foo() {
+          return 1;
+        }
+
+        async apple() {
+          await Promise.resolve(1);
+        }
+      }
+      `
+      },
+      'foo.txt': 'do not compile'
+    });
+
+    await output.build();
+
+    expect(output.changes()).to.deep.eql({
+      'a.js': 'create',
+      'b/': 'mkdir',
+      'b/b.js': 'create',
+      'foo.txt': 'create'
+    });
+
+
+    await output.build();
+
+    expect(output.changes()).to.deep.eql({});
+
+    expect(Object.keys(output.read())).to.deep.eql([ 'a.js', 'b', 'foo.txt' ]);
+
+    const A_JS = output.read()['a.js'];
+    const result = evalAndGetAmdExport(A_JS)
+    expect(result.moduleId).to.eql('a');
+    expect(result.dependencies).to.eql(['exports']);
+    const Foo = result.exports.default;
+    expect(new Foo().foo).to.eql(1);
+  });
+
+  it('it supports named AMD compilation', async function() {
+    const subject = swc(input.path(), {
+      namedAmd: true,
+      swc: {
+        module: {
+          type: 'amd'
+        }
+      }
+    });
+    const output = createBuilder(subject);
+
+    input.write({
+      'a.js': `
+      export default class Foo {
+        get foo() {
+          return 1;
+        }
+
+        async apple() {
+          await Promise.resolve(1);
+        }
+      }
+      `,
+
+      'b': {
+        'b.js': `
+      export default class Foo {
+        get foo() {
+          return 1;
+        }
+
+        async apple() {
+          await Promise.resolve(1);
+        }
+      }
+      `
+      },
+      'foo.txt': 'do not compile'
+    });
+
+    await output.build();
+
+    expect(output.changes()).to.deep.eql({
+      'a.js': 'create',
+      'b/': 'mkdir',
+      'b/b.js': 'create',
+      'foo.txt': 'create'
+    });
+
+
+    await output.build();
+
+    expect(output.changes()).to.deep.eql({});
+
+    expect(Object.keys(output.read())).to.deep.eql([ 'a.js', 'b', 'foo.txt' ]);
+
+    const A_JS = output.read()['a.js'];
+    const result = evalAndGetAmdExport(A_JS)
+    expect(result.moduleId).to.eql('a');
+    expect(result.dependencies).to.eql(['exports']);
+    const Foo = result.exports.default;
+    expect(new Foo().foo).to.eql(1);
+  });
+
+ it.skip('it supports AMD compilation with externalHelpers', async function() {
+    const subject = swc(input.path(), {
+      swc: {
+        jsc: {
+          externalHelpers: true,
+        },
+        module: {
+          type: 'amd'
+        }
+      }
+    });
+    const output = createBuilder(subject);
+
+    input.write({
+      'a.js': `
+      export default class Foo {
+        get foo() {
+          return 1;
+        }
+
+        async apple() {
+          await Promise.resolve(1);
+        }
+      }
+      `,
+
+      'b': {
+        'b.js': `
+      export default class Foo {
+        get foo() {
+          return 1;
+        }
+
+        async apple() {
+          await Promise.resolve(1);
+        }
+      }
+      `
+      },
+      'foo.txt': 'do not compile'
+    });
+
+    await output.build();
+
+    expect(output.changes()).to.deep.eql({
+      'a.js': 'create',
+      'b/': 'mkdir',
+      'b/b.js': 'create',
+      'foo.txt': 'create'
+    });
+
+
+    await output.build();
+
+    expect(output.changes()).to.deep.eql({});
+
+    expect(Object.keys(output.read())).to.deep.eql([ 'a.js', 'b', 'foo.txt' ]);
+
+    const A_JS = output.read()['a.js'];
+    const result = evalAndGetAmdExport(A_JS)
+    expect(result.moduleId).to.eql('a');
+    expect(result.dependencies).to.eql(['exports', '@swc/helpers']);
+    const Foo = result.exports.default;
     expect(new Foo().foo).to.eql(1);
   });
 });
