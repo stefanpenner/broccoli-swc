@@ -20,14 +20,14 @@ class SWC extends Plugin {
     };
 
     if (this.swcOptions.module === undefined) {
-      this.swcOptions.module = { type: 'amd' };
+      this.swcOptions.module = { type: 'amd', moduleId: true };
     }
     this.extensions = ['js', 'ts'];
   }
 
   async processString(content, relativePath) {
     const options = {...this.swcOptions};
-    options.module = options.module || {};
+    options.module = {...options.module} || {};
 
     if (options.module.type === 'amd' && this.options.namedAmd || options.module.moduleId === true) {
       options.module.moduleId = relativePath.replace(/\.(?:js|ts)$/, '');
