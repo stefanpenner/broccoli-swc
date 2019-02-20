@@ -29,7 +29,7 @@ class SWC extends Plugin {
     const options = {...this.swcOptions};
     options.module = options.module || {};
 
-    if (options.module.type === 'amd') {
+    if (options.module.type === 'amd' && this.options.namedAmd || options.module.moduleId === true) {
       options.module.moduleId = relativePath.replace(/\.(?:js|ts)$/, '');
     }
 
