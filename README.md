@@ -43,9 +43,4 @@ module.exports = class CustomSWC extends swc.Plugin {
 
 ## SWC Issues:
 
-* ~https://github.com/swc-project/swc/issues/151 commonjs transformation not working via JS API #151~
-* ~https://github.com/swc-project/swc/issues/154 add support for "named amd" module targets~
-* https://github.com/swc-project/swc/issues/104 Something like @babel/preset-env
-* ~https://github.com/swc-project/swc/issues/155 add support for external helpers~
-* https://github.com/swc-project/swc/issues/18 Plugin system (we often rely on custom build steps such as debug/assert/feature flag stripping)
-* ~https://github.com/swc-project/swc/issues/248 correctly include externalized helpers in amd output~
+https://github.com/stefanpenner/broccoli-swc/issues/9
