@@ -22,6 +22,8 @@ class SWC extends Plugin {
     if (this.swcOptions.module === undefined) {
       this.swcOptions.module = { type: 'amd', moduleId: true };
     }
+
+
     this.extensions = ['js', 'ts'];
   }
 
@@ -33,6 +35,12 @@ class SWC extends Plugin {
       options.module.moduleId = relativePath.replace(/\.(?:js|ts)$/, '');
     }
 
+    options.jsc = options.jsc || {};
+    if (relativePath.endsWith('.ts') && options.jsc.parser === undefined) {
+      options.jsc.parser = {
+        "syntax": "typescript",
+      }
+    }
     const { code } = await swc.transform(content, options);
     return code;
   }

@@ -114,11 +114,11 @@ describe('broccoli-swc-transpiler', function() {
     input.write({
       'a.ts': `
       export default class Foo {
-        get foo() {
+        get foo() : number {
           return 1;
         }
 
-        async apple() {
+        async apple(name: string) {
           await Promise.resolve(1);
         }
       }
