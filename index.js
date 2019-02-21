@@ -6,10 +6,7 @@ const swc = require('@swc/core')
 class SWC extends Plugin {
   constructor(inputTree, options = {}) {
     super(inputTree, {
-      // in theory, it is possible for swc to use native threads to achieve per
-      // transform parallelism. To utilize that we enable async here, which
-      // processes all processStrings in parallel. I'll need to investigate if
-      // this is actually possible with SWC...
+      // swc uses native parallelism to achieve improved throughput
       async: true,
 
       // TODO: lets experiment with this some, maybe SWC is fast enough to not need this? persist: true
